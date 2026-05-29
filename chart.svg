@@ -1,49 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">MiniSql vs ActiveRecord benchmark</title>
+<desc id="desc">Grouped horizontal bar chart showing MiniSql faster than ActiveRecord in Jarvis container and wasnotwas Docker runs.</desc>
 <rect width="100%" height="100%" fill="#faf8f4"/>
-<style>text{font-family:Inter,Arial,sans-serif;fill:#24211d}.title{font-size:28px;font-weight:700}.sub{font-size:15px;fill:#5c554d}.label{font-size:15px}.group{font-size:17px;font-weight:700}.value{font-size:14px;font-weight:700}.axis{stroke:#d8d0c4;stroke-width:1}.tick{font-size:12px;fill:#7a7570}</style>
-<text x="50" y="42" class="title">MiniSql vs ActiveRecord — Discourse-ish sessions per second</text>
-<text x="50" y="68" class="sub">60 seconds per combination. Higher is better. Ruby and Postgres both containerized in the wasnotwas Docker run.</text>
-<line x1="260.0" y1="90" x2="260.0" y2="650" class="axis"/>
-<text x="260.0" y="672" text-anchor="middle" class="tick">0</text>
-<line x1="375.5" y1="90" x2="375.5" y2="650" class="axis"/>
-<text x="375.5" y="672" text-anchor="middle" class="tick">100</text>
-<line x1="491.1" y1="90" x2="491.1" y2="650" class="axis"/>
-<text x="491.1" y="672" text-anchor="middle" class="tick">200</text>
-<line x1="606.6" y1="90" x2="606.6" y2="650" class="axis"/>
-<text x="606.6" y="672" text-anchor="middle" class="tick">300</text>
-<line x1="722.1" y1="90" x2="722.1" y2="650" class="axis"/>
-<text x="722.1" y="672" text-anchor="middle" class="tick">400</text>
-<line x1="837.6" y1="90" x2="837.6" y2="650" class="axis"/>
-<text x="837.6" y="672" text-anchor="middle" class="tick">500</text>
-<line x1="953.2" y1="90" x2="953.2" y2="650" class="axis"/>
-<text x="953.2" y="672" text-anchor="middle" class="tick">600</text>
-<line x1="1068.7" y1="90" x2="1068.7" y2="650" class="axis"/>
-<text x="1068.7" y="672" text-anchor="middle" class="tick">700</text>
-<text x="50" y="124" class="group">Jarvis container</text>
-<text x="250" y="124" text-anchor="end" class="label">Ruby 3.4.6 MiniSql</text>
-<rect x="260" y="100" width="758.6" height="34" rx="5" fill="#c9a96e"/>
-<text x="1026.6" y="123" class="value">656.7</text>
-<text x="250" y="176" text-anchor="end" class="label">Ruby 3.4.6 ActiveRecord</text>
-<rect x="260" y="152" width="458.1" height="34" rx="5" fill="#7a7570"/>
-<text x="726.1" y="175" class="value">396.6</text>
-<text x="250" y="228" text-anchor="end" class="label">Ruby 4.0.5 MiniSql</text>
-<rect x="260" y="204" width="770.0" height="34" rx="5" fill="#d6b87f"/>
-<text x="1038.0" y="227" class="value">666.5</text>
-<text x="250" y="280" text-anchor="end" class="label">Ruby 4.0.5 ActiveRecord</text>
-<rect x="260" y="256" width="467.0" height="34" rx="5" fill="#8c8781"/>
-<text x="735.0" y="279" class="value">404.3</text>
-<text x="50" y="350" class="group">wasnotwas Docker</text>
-<text x="250" y="350" text-anchor="end" class="label">Ruby 3.4.6 MiniSql</text>
-<rect x="260" y="326" width="173.0" height="34" rx="5" fill="#c9a96e"/>
-<text x="441.0" y="349" class="value">149.7</text>
-<text x="250" y="402" text-anchor="end" class="label">Ruby 3.4.6 ActiveRecord</text>
-<rect x="260" y="378" width="75.6" height="34" rx="5" fill="#7a7570"/>
-<text x="343.6" y="401" class="value">65.4</text>
-<text x="250" y="454" text-anchor="end" class="label">Ruby 4.0.5 MiniSql</text>
-<rect x="260" y="430" width="179.6" height="34" rx="5" fill="#d6b87f"/>
-<text x="447.6" y="453" class="value">155.5</text>
-<text x="250" y="506" text-anchor="end" class="label">Ruby 4.0.5 ActiveRecord</text>
-<rect x="260" y="482" width="79.8" height="34" rx="5" fill="#8c8781"/>
-<text x="347.8" y="505" class="value">69.0</text>
-<text x="645.0" y="702" text-anchor="middle" class="sub">sessions/second</text>
+<style>text{font-family:Inter,Arial,sans-serif;fill:#24211d}.title{font-size:30px;font-weight:800}.sub{font-size:16px;fill:#5c554d}.label{font-size:16px}.group{font-size:20px;font-weight:800}.value{font-size:15px;font-weight:800}.axis{stroke:#ded6ca;stroke-width:1}.tick{font-size:13px;fill:#7a7570}</style>
+<text x="56" y="52" class="title">MiniSql vs ActiveRecord — sessions per second</text>
+<text x="56" y="82" class="sub">60 seconds per combination. Higher is better. Same benchmark, two environments.</text>
+<line x1="360.0" y1="98" x2="360.0" y2="688" class="axis"/>
+<text x="360.0" y="712" text-anchor="middle" class="tick">0</text>
+<line x1="467.1" y1="98" x2="467.1" y2="688" class="axis"/>
+<text x="467.1" y="712" text-anchor="middle" class="tick">100</text>
+<line x1="574.3" y1="98" x2="574.3" y2="688" class="axis"/>
+<text x="574.3" y="712" text-anchor="middle" class="tick">200</text>
+<line x1="681.4" y1="98" x2="681.4" y2="688" class="axis"/>
+<text x="681.4" y="712" text-anchor="middle" class="tick">300</text>
+<line x1="788.6" y1="98" x2="788.6" y2="688" class="axis"/>
+<text x="788.6" y="712" text-anchor="middle" class="tick">400</text>
+<line x1="895.7" y1="98" x2="895.7" y2="688" class="axis"/>
+<text x="895.7" y="712" text-anchor="middle" class="tick">500</text>
+<line x1="1002.9" y1="98" x2="1002.9" y2="688" class="axis"/>
+<text x="1002.9" y="712" text-anchor="middle" class="tick">600</text>
+<line x1="1110.0" y1="98" x2="1110.0" y2="688" class="axis"/>
+<text x="1110.0" y="712" text-anchor="middle" class="tick">700</text>
+<text x="56" y="144" class="group">Jarvis container</text>
+<text x="344" y="143" text-anchor="end" class="label">Ruby 3.4.6 MiniSql</text>
+<rect x="360" y="120" width="703.6" height="34" rx="6" fill="#c9a96e"/>
+<text x="1073.6" y="143" text-anchor="start" class="value">656.7</text>
+<text x="344" y="195" text-anchor="end" class="label">Ruby 3.4.6 ActiveRecord</text>
+<rect x="360" y="172" width="424.9" height="34" rx="6" fill="#7a7570"/>
+<text x="794.9" y="195" text-anchor="start" class="value">396.6</text>
+<text x="344" y="247" text-anchor="end" class="label">Ruby 4.0.5 MiniSql</text>
+<rect x="360" y="224" width="714.1" height="34" rx="6" fill="#d6b87f"/>
+<text x="1084.1" y="247" text-anchor="start" class="value">666.5</text>
+<text x="344" y="299" text-anchor="end" class="label">Ruby 4.0.5 ActiveRecord</text>
+<rect x="360" y="276" width="433.2" height="34" rx="6" fill="#8c8781"/>
+<text x="803.2" y="299" text-anchor="start" class="value">404.3</text>
+<text x="56" y="410" class="group">wasnotwas Docker</text>
+<text x="344" y="409" text-anchor="end" class="label">Ruby 3.4.6 MiniSql</text>
+<rect x="360" y="386" width="160.4" height="34" rx="6" fill="#c9a96e"/>
+<text x="530.4" y="409" text-anchor="start" class="value">149.7</text>
+<text x="344" y="461" text-anchor="end" class="label">Ruby 3.4.6 ActiveRecord</text>
+<rect x="360" y="438" width="70.1" height="34" rx="6" fill="#7a7570"/>
+<text x="440.1" y="461" text-anchor="start" class="value">65.4</text>
+<text x="344" y="513" text-anchor="end" class="label">Ruby 4.0.5 MiniSql</text>
+<rect x="360" y="490" width="166.6" height="34" rx="6" fill="#d6b87f"/>
+<text x="536.6" y="513" text-anchor="start" class="value">155.5</text>
+<text x="344" y="565" text-anchor="end" class="label">Ruby 4.0.5 ActiveRecord</text>
+<rect x="360" y="542" width="74.0" height="34" rx="6" fill="#8c8781"/>
+<text x="444.0" y="565" text-anchor="start" class="value">69.0</text>
+<text x="735.0" y="740" text-anchor="middle" class="sub">sessions / second</text>
 </svg>

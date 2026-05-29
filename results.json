@@ -1,15 +1,15 @@
 {
-  "scenario": "Discourse-ish browsing session: latest page, topic page, user card, category dashboard, ephemeral autosave write/readback",
+  "scenario": "Discourse-ish browsing session: latest page, topic page, user card, category dashboard, ephemeral autosave write/readback; each result set is iterated and converted into tab-separated text",
   "gems": {"mini_sql": "1.6.0", "activerecord": "8.1.3", "pg": "1.6.3"},
   "duration_seconds_per_combination": 60,
   "results": [
-    {"environment":"jarvis-container","ruby":"3.4.6","layer":"MiniSql","sessions_per_second":656.6672678373774,"operations_per_second":4596.670874861641,"rows_materialized":2244652},
-    {"environment":"jarvis-container","ruby":"3.4.6","layer":"ActiveRecord","sessions_per_second":396.5656323969248,"operations_per_second":2775.9594267784732,"rows_materialized":1355664},
-    {"environment":"jarvis-container","ruby":"4.0.5","layer":"MiniSql","sessions_per_second":666.5164214566989,"operations_per_second":4665.614950196893,"rows_materialized":2278667},
-    {"environment":"jarvis-container","ruby":"4.0.5","layer":"ActiveRecord","sessions_per_second":404.27477431741914,"operations_per_second":2829.923420221934,"rows_materialized":1382048},
-    {"environment":"wasnotwas-docker","ruby":"3.4.6","layer":"MiniSql","sessions_per_second":149.73105394567526,"operations_per_second":1048.1173776197268,"rows_materialized":511073},
-    {"environment":"wasnotwas-docker","ruby":"3.4.6","layer":"ActiveRecord","sessions_per_second":65.43765575881186,"operations_per_second":458.06359031168296,"rows_materialized":223569},
-    {"environment":"wasnotwas-docker","ruby":"4.0.5","layer":"MiniSql","sessions_per_second":155.4731589837416,"operations_per_second":1088.312112886191,"rows_materialized":531046},
-    {"environment":"wasnotwas-docker","ruby":"4.0.5","layer":"ActiveRecord","sessions_per_second":69.04044579369139,"operations_per_second":483.2831205558397,"rows_materialized":235837}
+    {"environment":"jarvis-container","ruby":"3.4.6","layer":"MiniSql","sessions_per_second":650.6658996079157,"operations_per_second":4554.66129725541,"rows_materialized":2223975,"bytes_materialized":246921928},
+    {"environment":"jarvis-container","ruby":"3.4.6","layer":"ActiveRecord","sessions_per_second":323.99866045707734,"operations_per_second":2267.9906231995415,"rows_materialized":1106295,"bytes_materialized":122778795},
+    {"environment":"jarvis-container","ruby":"4.0.5","layer":"MiniSql","sessions_per_second":641.9476861244057,"operations_per_second":4493.63380287084,"rows_materialized":2194318,"bytes_materialized":243631789},
+    {"environment":"jarvis-container","ruby":"4.0.5","layer":"ActiveRecord","sessions_per_second":338.12596746743156,"operations_per_second":2366.881772272021,"rows_materialized":1154062,"bytes_materialized":128091417},
+    {"environment":"wasnotwas-docker","ruby":"3.4.6","layer":"MiniSql","sessions_per_second":146.05899440189157,"operations_per_second":1022.4129608132409,"rows_materialized":498541,"bytes_materialized":55378509},
+    {"environment":"wasnotwas-docker","ruby":"3.4.6","layer":"ActiveRecord","sessions_per_second":55.10957873218608,"operations_per_second":385.76705112530254,"rows_materialized":188323,"bytes_materialized":20950812},
+    {"environment":"wasnotwas-docker","ruby":"4.0.5","layer":"MiniSql","sessions_per_second":139.3533363267536,"operations_per_second":975.4733542872752,"rows_materialized":475911,"bytes_materialized":52863670},
+    {"environment":"wasnotwas-docker","ruby":"4.0.5","layer":"ActiveRecord","sessions_per_second":57.715173564429314,"operations_per_second":404.0062149510052,"rows_materialized":197107,"bytes_materialized":21921260}
   ]
 }

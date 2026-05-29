@@ -74,16 +74,16 @@ export BENCH_SECONDS=60
 
 ![Benchmark chart](chart.svg)
 
-| Environment | Ruby | Layer | Sessions/sec | Ops/sec |
-|---|---|---|---:|---:|
-| Jarvis container | 3.4.6 | MiniSql | 656.67 | 4596.67 |
-| Jarvis container | 3.4.6 | ActiveRecord | 396.57 | 2775.96 |
-| Jarvis container | 4.0.5 | MiniSql | 666.52 | 4665.61 |
-| Jarvis container | 4.0.5 | ActiveRecord | 404.27 | 2829.92 |
-| wasnotwas Docker | 3.4.6 | MiniSql | 149.73 | 1048.12 |
-| wasnotwas Docker | 3.4.6 | ActiveRecord | 65.44 | 458.06 |
-| wasnotwas Docker | 4.0.5 | MiniSql | 155.47 | 1088.31 |
-| wasnotwas Docker | 4.0.5 | ActiveRecord | 69.04 | 483.28 |
+| Environment | Ruby | Layer | Sessions/sec | Ops/sec | Rendered MB |
+|---|---|---|---:|---:|---:|
+| Jarvis container | 3.4.6 | MiniSql | 650.67 | 4554.66 | 246.9 |
+| Jarvis container | 3.4.6 | ActiveRecord | 324.00 | 2267.99 | 122.8 |
+| Jarvis container | 4.0.5 | MiniSql | 641.95 | 4493.63 | 243.6 |
+| Jarvis container | 4.0.5 | ActiveRecord | 338.13 | 2366.88 | 128.1 |
+| wasnotwas Docker | 3.4.6 | MiniSql | 146.06 | 1022.41 | 55.4 |
+| wasnotwas Docker | 3.4.6 | ActiveRecord | 55.11 | 385.77 | 21.0 |
+| wasnotwas Docker | 4.0.5 | MiniSql | 139.35 | 975.47 | 52.9 |
+| wasnotwas Docker | 4.0.5 | ActiveRecord | 57.72 | 404.01 | 21.9 |
 
 ## Caveats
 

@@ -22,6 +22,7 @@ Each benchmark session performs:
 
 - PostgreSQL database containing Discourse-like `users`, `topics`, `posts`, and `categories` tables
 - Ruby 3.4.6 and/or Ruby 4.0.5
+- YJIT-capable Ruby builds for `--yjit` runs
 - Gems: `mini_sql`, `pg`, `activerecord`
 
 The published runs used:
@@ -74,16 +75,24 @@ export BENCH_SECONDS=60
 
 ![Benchmark chart](chart.svg)
 
-| Environment | Ruby | Layer | Sessions/sec | Ops/sec | Rendered MB |
-|---|---|---|---:|---:|---:|
-| Jarvis container | 3.4.6 | MiniSql | 650.67 | 4554.66 | 246.9 |
-| Jarvis container | 3.4.6 | ActiveRecord | 324.00 | 2267.99 | 122.8 |
-| Jarvis container | 4.0.5 | MiniSql | 641.95 | 4493.63 | 243.6 |
-| Jarvis container | 4.0.5 | ActiveRecord | 338.13 | 2366.88 | 128.1 |
-| wasnotwas Docker | 3.4.6 | MiniSql | 146.06 | 1022.41 | 55.4 |
-| wasnotwas Docker | 3.4.6 | ActiveRecord | 55.11 | 385.77 | 21.0 |
-| wasnotwas Docker | 4.0.5 | MiniSql | 139.35 | 975.47 | 52.9 |
-| wasnotwas Docker | 4.0.5 | ActiveRecord | 57.72 | 404.01 | 21.9 |
+| Environment | Ruby | YJIT | Layer | Sessions/sec | Ops/sec | Rendered MB |
+|---|---|---|---|---:|---:|---:|
+| Jarvis container | 3.4.6 | off | MiniSql | 646.37 | 4524.59 | 245.3 |
+| Jarvis container | 3.4.6 | off | ActiveRecord | 317.17 | 2220.17 | 120.2 |
+| Jarvis container | 3.4.6 | on | MiniSql | 644.48 | 4511.37 | 244.6 |
+| Jarvis container | 3.4.6 | on | ActiveRecord | 426.80 | 2987.60 | 161.9 |
+| Jarvis container | 4.0.5 | off | MiniSql | 626.21 | 4383.47 | 237.6 |
+| Jarvis container | 4.0.5 | off | ActiveRecord | 340.56 | 2383.95 | 129.0 |
+| Jarvis container | 4.0.5 | on | MiniSql | 659.60 | 4617.17 | 250.3 |
+| Jarvis container | 4.0.5 | on | ActiveRecord | 429.71 | 3007.96 | 163.1 |
+| wasnotwas Docker | 3.4.6 | off | MiniSql | 146.99 | 1028.93 | 55.7 |
+| wasnotwas Docker | 3.4.6 | off | ActiveRecord | 56.02 | 392.17 | 21.3 |
+| wasnotwas Docker | 3.4.6 | on | MiniSql | 148.39 | 1038.73 | 56.3 |
+| wasnotwas Docker | 3.4.6 | on | ActiveRecord | 79.62 | 557.37 | 30.2 |
+| wasnotwas Docker | 4.0.5 | off | MiniSql | 127.75 | 894.25 | 48.5 |
+| wasnotwas Docker | 4.0.5 | off | ActiveRecord | 56.33 | 394.29 | 21.4 |
+| wasnotwas Docker | 4.0.5 | on | MiniSql | 140.60 | 984.23 | 53.3 |
+| wasnotwas Docker | 4.0.5 | on | ActiveRecord | 87.54 | 612.78 | 33.2 |
 
 ## Caveats
 

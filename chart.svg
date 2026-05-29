@@ -1,51 +1,75 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" role="img" aria-labelledby="title desc">
-<title id="title">MiniSql vs ActiveRecord benchmark</title>
-<desc id="desc">Grouped horizontal bar chart showing MiniSql faster than ActiveRecord after iterating and rendering each row to text.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1180" viewBox="0 0 1400 1180" role="img" aria-labelledby="title desc">
+<title id="title">MiniSql vs ActiveRecord with YJIT benchmark</title>
+<desc id="desc">Horizontal bar chart including YJIT on and off.</desc>
 <rect width="100%" height="100%" fill="#faf8f4"/>
-<style>text{font-family:Inter,Arial,sans-serif;fill:#24211d}.title{font-size:32px;font-weight:800}.sub{font-size:17px;fill:#5c554d}.label{font-size:16px}.group{font-size:21px;font-weight:800}.value{font-size:15px;font-weight:800}.axis{stroke:#ded6ca;stroke-width:1}.tick{font-size:13px;fill:#7a7570}</style>
+<style>text{font-family:Inter,Arial,sans-serif;fill:#24211d}.title{font-size:32px;font-weight:800}.sub{font-size:17px;fill:#5c554d}.label{font-size:15px}.group{font-size:21px;font-weight:800}.value{font-size:14px;font-weight:800}.axis{stroke:#ded6ca;stroke-width:1}.tick{font-size:13px;fill:#7a7570}</style>
 <text x="56" y="54" class="title">MiniSql vs ActiveRecord — rendered sessions per second</text>
-<text x="56" y="86" class="sub">Each query result is iterated and converted to tab-separated text. 60 seconds per combination.</text>
-<line x1="390.0" y1="116" x2="390.0" y2="742" class="axis"/>
-<text x="390.0" y="766" text-anchor="middle" class="tick">0</text>
-<line x1="503.6" y1="116" x2="503.6" y2="742" class="axis"/>
-<text x="503.6" y="766" text-anchor="middle" class="tick">100</text>
-<line x1="617.1" y1="116" x2="617.1" y2="742" class="axis"/>
-<text x="617.1" y="766" text-anchor="middle" class="tick">200</text>
-<line x1="730.7" y1="116" x2="730.7" y2="742" class="axis"/>
-<text x="730.7" y="766" text-anchor="middle" class="tick">300</text>
-<line x1="844.3" y1="116" x2="844.3" y2="742" class="axis"/>
-<text x="844.3" y="766" text-anchor="middle" class="tick">400</text>
-<line x1="957.9" y1="116" x2="957.9" y2="742" class="axis"/>
-<text x="957.9" y="766" text-anchor="middle" class="tick">500</text>
-<line x1="1071.4" y1="116" x2="1071.4" y2="742" class="axis"/>
-<text x="1071.4" y="766" text-anchor="middle" class="tick">600</text>
-<line x1="1185.0" y1="116" x2="1185.0" y2="742" class="axis"/>
-<text x="1185.0" y="766" text-anchor="middle" class="tick">700</text>
+<text x="56" y="86" class="sub">YJIT on/off. Each query result is iterated and converted to tab-separated text. 60s per combination.</text>
+<line x1="360.0" y1="116" x2="360.0" y2="1102" class="axis"/>
+<text x="360.0" y="1126" text-anchor="middle" class="tick">0</text>
+<line x1="492.9" y1="116" x2="492.9" y2="1102" class="axis"/>
+<text x="492.9" y="1126" text-anchor="middle" class="tick">100</text>
+<line x1="625.7" y1="116" x2="625.7" y2="1102" class="axis"/>
+<text x="625.7" y="1126" text-anchor="middle" class="tick">200</text>
+<line x1="758.6" y1="116" x2="758.6" y2="1102" class="axis"/>
+<text x="758.6" y="1126" text-anchor="middle" class="tick">300</text>
+<line x1="891.4" y1="116" x2="891.4" y2="1102" class="axis"/>
+<text x="891.4" y="1126" text-anchor="middle" class="tick">400</text>
+<line x1="1024.3" y1="116" x2="1024.3" y2="1102" class="axis"/>
+<text x="1024.3" y="1126" text-anchor="middle" class="tick">500</text>
+<line x1="1157.1" y1="116" x2="1157.1" y2="1102" class="axis"/>
+<text x="1157.1" y="1126" text-anchor="middle" class="tick">600</text>
+<line x1="1290.0" y1="116" x2="1290.0" y2="1102" class="axis"/>
+<text x="1290.0" y="1126" text-anchor="middle" class="tick">700</text>
 <text x="56" y="128" class="group">Jarvis container</text>
-<text x="374" y="173" text-anchor="end" class="label">Ruby 3.4.6 MiniSql</text>
-<rect x="390" y="150" width="739.0" height="34" rx="6" fill="#c9a96e"/>
-<text x="1139.0" y="173" text-anchor="start" class="value">650.7</text>
-<text x="374" y="225" text-anchor="end" class="label">Ruby 3.4.6 ActiveRecord</text>
-<rect x="390" y="202" width="368.0" height="34" rx="6" fill="#7a7570"/>
-<text x="768.0" y="225" text-anchor="start" class="value">324.0</text>
-<text x="374" y="277" text-anchor="end" class="label">Ruby 4.0.5 MiniSql</text>
-<rect x="390" y="254" width="729.1" height="34" rx="6" fill="#d6b87f"/>
-<text x="1129.1" y="277" text-anchor="start" class="value">641.9</text>
-<text x="374" y="329" text-anchor="end" class="label">Ruby 4.0.5 ActiveRecord</text>
-<rect x="390" y="306" width="384.0" height="34" rx="6" fill="#8c8781"/>
-<text x="784.0" y="329" text-anchor="start" class="value">338.1</text>
-<text x="56" y="398" class="group">wasnotwas Docker</text>
-<text x="374" y="443" text-anchor="end" class="label">Ruby 3.4.6 MiniSql</text>
-<rect x="390" y="420" width="165.9" height="34" rx="6" fill="#c9a96e"/>
-<text x="565.9" y="443" text-anchor="start" class="value">146.1</text>
-<text x="374" y="495" text-anchor="end" class="label">Ruby 3.4.6 ActiveRecord</text>
-<rect x="390" y="472" width="62.6" height="34" rx="6" fill="#7a7570"/>
-<text x="462.6" y="495" text-anchor="start" class="value">55.1</text>
-<text x="374" y="547" text-anchor="end" class="label">Ruby 4.0.5 MiniSql</text>
-<rect x="390" y="524" width="158.3" height="34" rx="6" fill="#d6b87f"/>
-<text x="558.3" y="547" text-anchor="start" class="value">139.4</text>
-<text x="374" y="599" text-anchor="end" class="label">Ruby 4.0.5 ActiveRecord</text>
-<rect x="390" y="576" width="65.5" height="34" rx="6" fill="#8c8781"/>
-<text x="465.5" y="599" text-anchor="start" class="value">57.7</text>
-<text x="787.5" y="798" text-anchor="middle" class="sub">sessions / second</text>
+<text x="344" y="170" text-anchor="end" class="label">3.4 off MiniSql</text>
+<rect x="360" y="150" width="858.7" height="28" rx="5" fill="#c9a96e"/>
+<text x="1227.7" y="170" class="value">646.4</text>
+<text x="344" y="210" text-anchor="end" class="label">3.4 off AR</text>
+<rect x="360" y="190" width="421.4" height="28" rx="5" fill="#7a7570"/>
+<text x="790.4" y="210" class="value">317.2</text>
+<text x="344" y="250" text-anchor="end" class="label">3.4 YJIT MiniSql</text>
+<rect x="360" y="230" width="856.2" height="28" rx="5" fill="#d6b87f"/>
+<text x="1225.2" y="250" class="value">644.5</text>
+<text x="344" y="290" text-anchor="end" class="label">3.4 YJIT AR</text>
+<rect x="360" y="270" width="567.0" height="28" rx="5" fill="#9b9690"/>
+<text x="936.0" y="290" class="value">426.8</text>
+<text x="344" y="330" text-anchor="end" class="label">4.0 off MiniSql</text>
+<rect x="360" y="310" width="832.0" height="28" rx="5" fill="#c9a96e"/>
+<text x="1201.0" y="330" class="value">626.2</text>
+<text x="344" y="370" text-anchor="end" class="label">4.0 off AR</text>
+<rect x="360" y="350" width="452.5" height="28" rx="5" fill="#7a7570"/>
+<text x="821.5" y="370" class="value">340.6</text>
+<text x="344" y="410" text-anchor="end" class="label">4.0 YJIT MiniSql</text>
+<rect x="360" y="390" width="876.3" height="28" rx="5" fill="#d6b87f"/>
+<text x="1245.3" y="410" class="value">659.6</text>
+<text x="344" y="450" text-anchor="end" class="label">4.0 YJIT AR</text>
+<rect x="360" y="430" width="570.9" height="28" rx="5" fill="#9b9690"/>
+<text x="939.9" y="450" class="value">429.7</text>
+<text x="56" y="512" class="group">wasnotwas Docker</text>
+<text x="344" y="554" text-anchor="end" class="label">3.4 off MiniSql</text>
+<rect x="360" y="534" width="195.3" height="28" rx="5" fill="#c9a96e"/>
+<text x="564.3" y="554" class="value">147.0</text>
+<text x="344" y="594" text-anchor="end" class="label">3.4 off AR</text>
+<rect x="360" y="574" width="74.4" height="28" rx="5" fill="#7a7570"/>
+<text x="443.4" y="594" class="value">56.0</text>
+<text x="344" y="634" text-anchor="end" class="label">3.4 YJIT MiniSql</text>
+<rect x="360" y="614" width="197.1" height="28" rx="5" fill="#d6b87f"/>
+<text x="566.1" y="634" class="value">148.4</text>
+<text x="344" y="674" text-anchor="end" class="label">3.4 YJIT AR</text>
+<rect x="360" y="654" width="105.8" height="28" rx="5" fill="#9b9690"/>
+<text x="474.8" y="674" class="value">79.6</text>
+<text x="344" y="714" text-anchor="end" class="label">4.0 off MiniSql</text>
+<rect x="360" y="694" width="169.7" height="28" rx="5" fill="#c9a96e"/>
+<text x="538.7" y="714" class="value">127.7</text>
+<text x="344" y="754" text-anchor="end" class="label">4.0 off AR</text>
+<rect x="360" y="734" width="74.8" height="28" rx="5" fill="#7a7570"/>
+<text x="443.8" y="754" class="value">56.3</text>
+<text x="344" y="794" text-anchor="end" class="label">4.0 YJIT MiniSql</text>
+<rect x="360" y="774" width="186.8" height="28" rx="5" fill="#d6b87f"/>
+<text x="555.8" y="794" class="value">140.6</text>
+<text x="344" y="834" text-anchor="end" class="label">4.0 YJIT AR</text>
+<rect x="360" y="814" width="116.3" height="28" rx="5" fill="#9b9690"/>
+<text x="485.3" y="834" class="value">87.5</text>
+<text x="825.0" y="1158" text-anchor="middle" class="sub">sessions / second</text>
 </svg>

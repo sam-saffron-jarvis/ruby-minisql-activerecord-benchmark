@@ -70,6 +70,7 @@ def finish_report(metrics, started, sessions)
     mode: MODE,
     ruby: RUBY_VERSION,
     ruby_description: RUBY_DESCRIPTION,
+    yjit: defined?(RubyVM::YJIT) ? RubyVM::YJIT.enabled? : false,
     mini_sql: Gem.loaded_specs['mini_sql']&.version&.to_s,
     active_record: Gem.loaded_specs['activerecord']&.version&.to_s,
     pg: Gem.loaded_specs['pg']&.version&.to_s,

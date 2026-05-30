@@ -26,9 +26,79 @@ The matrix supports:
 - ActiveRecord
 - Sequel
 
-## Database setup
+## Important: static database per benchmark run
 
-Use `setup-db.rb` to create a synthetic Discourse-like dataset with the tables and indexes the benchmark expects.
+The benchmark runners follow this lifecycle by default:
+
+1. create a fresh benchmark database
+2. populate it once with deterministic synthetic data and indexes
+3. run the full Ruby × YJIT × library matrix against that same database
+4. drop/remove the database when finished
+
+This avoids comparing runs that accidentally used different fixtures.
+
+Use `KEEP_DB=1` if you want to inspect the generated database after the run. Use `USE_EXISTING_DB=1` only when you deliberately want to benchmark a pre-existing database.
+
+## Local one-command run
+
+This creates a temporary local PostgreSQL database, populates it, runs the full matrix, then drops it:
+
+```bash
+mise install ruby@3.4.6 ruby@4.0.5
+BENCH_SECONDS=60 ./run-local.sh | tee local-bench-output.txt
+```
+
+Tune fixture size:
+
+```bash
+USERS=10000 CATEGORIES=48 TOPICS=100000 AVG_POSTS=8 \
+  BENCH_SECONDS=60 ./run-local.sh
+```
+
+Keep the generated DB:
+
+```bash
+KEEP_DB=1 PGDATABASE=minisql_ar_bench BENCH_SECONDS=60 ./run-local.sh
+```
+
+Use an existing DB intentionally:
+
+```bash
+USE_EXISTING_DB=1 PGDATABASE=my_existing_bench_db BENCH_SECONDS=60 ./run-local.sh
+```
+
+## Docker one-command run
+
+This creates a `postgres:16` container, populates it once, runs the full Docker Ruby matrix against that container, then removes the container and network:
+
+```bash
+USERS=5000 CATEGORIES=32 TOPICS=50000 AVG_POSTS=6 \
+  BENCH_SECONDS=60 ./run-docker.sh | tee docker-bench-output.txt
+```
+
+Keep the generated Postgres container:
+
+```bash
+KEEP_DB=1 BENCH_SECONDS=60 ./run-docker.sh
+```
+
+Use an existing Docker/Postgres database intentionally:
+
+```bash
+USE_EXISTING_DB=1 PGDATABASE=ruby_data_bench PGUSER=agent PGHOST=bench-pg \
+  BENCH_SECONDS=60 ./run-docker.sh
+```
+
+Cleanup if kept:
+
+```bash
+docker rm -f bench-pg
+docker network rm bench-net
+```
+
+## Manual database setup
+
+`setup-db.rb` is the fixture generator used by the runners. It creates a synthetic Discourse-like dataset with the tables and indexes the benchmark expects.
 
 Default dataset:
 
@@ -38,65 +108,18 @@ Default dataset:
 - roughly 300,000 posts (`AVG_POSTS=6`)
 - indexes for the benchmark queries
 
+Manual use:
+
 ```bash
 createdb minisql_ar_bench
 mise x ruby@3.4.6 -- gem install pg --no-document
 PGDATABASE=minisql_ar_bench PGUSER=$USER ruby setup-db.rb
 ```
 
-Tune the dataset size:
-
-```bash
-USERS=10000 CATEGORIES=48 TOPICS=100000 AVG_POSTS=8 \
-  PGDATABASE=minisql_ar_bench PGUSER=$USER ruby setup-db.rb
-```
-
-The setup script is deterministic by default (`SEED=20260529`) and resets the benchmark tables unless `RESET=0` is set.
-
-## Local run with mise
-
-```bash
-mise install ruby@3.4.6 ruby@4.0.5
-export PGDATABASE=minisql_ar_bench
-export PGUSER=$USER
-export BENCH_SECONDS=60
-./run-local.sh | tee local-bench-output.txt
-```
-
-If PostgreSQL is on another host:
-
-```bash
-export PGHOST=127.0.0.1
-```
-
-## Docker database setup
-
-This creates a `postgres:16` container, populates it using `setup-db.rb`, and leaves it running for the benchmark:
-
-```bash
-USERS=5000 CATEGORIES=32 TOPICS=50000 AVG_POSTS=6 ./setup-docker-db.sh
-```
-
-Then run the Docker Ruby matrix:
-
-```bash
-export PGDATABASE=discourse_sql_ft
-export PGUSER=agent
-export PGHOST=bench-pg
-export BENCH_SECONDS=60
-./run-docker.sh | tee docker-bench-output.txt
-```
-
-Cleanup:
-
-```bash
-docker rm -f bench-pg
-docker network rm bench-net
-```
-
 ## Requirements
 
-- PostgreSQL
+- PostgreSQL client tools for local runs (`createdb`, `dropdb`)
+- Docker for Docker runs
 - Ruby 3.4.6 and/or Ruby 4.0.5
 - YJIT-capable Ruby builds for `--yjit` runs
 - Gems: `mini_sql`, `pg`, `activerecord`, `sequel`

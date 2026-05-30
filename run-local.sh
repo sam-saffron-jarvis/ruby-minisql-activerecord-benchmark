@@ -8,14 +8,14 @@ set -euo pipefail
 for v in 3.4.6 4.0.5; do
   echo "== ruby $v setup =="
   mise x ruby@$v -- ruby -v
-  mise x ruby@$v -- gem install mini_sql pg activerecord --no-document >/dev/null
+  mise x ruby@$v -- gem install mini_sql pg activerecord sequel --no-document >/dev/null
   for yjit in off on; do
     if [ "$yjit" = "on" ]; then
       rubyopt="--yjit"
     else
       rubyopt=""
     fi
-    for mode in mini_sql active_record; do
+    for mode in mini_sql active_record sequel; do
       echo "== ruby $v yjit $yjit $mode story bench =="
       RUBYOPT="$rubyopt" BENCH_MODE=$mode BENCH_SECONDS=$BENCH_SECONDS PGDATABASE=$PGDATABASE PGUSER=$PGUSER \
         mise x ruby@$v -- ruby bench_story_compare.rb

@@ -16,7 +16,7 @@ for v in 3.4.6 4.0.5; do
     else
       rubyopt=""
     fi
-    for mode in mini_sql active_record; do
+    for mode in mini_sql active_record sequel; do
       echo "== docker $image yjit $yjit $mode story bench =="
       docker run --rm --network bench-net \
         -v "$PWD:/bench" -w /bench \
@@ -26,7 +26,7 @@ for v in 3.4.6 4.0.5; do
         -e PGUSER="$PGUSER" \
         -e PGHOST="$PGHOST" \
         -e RUBYOPT="$rubyopt" \
-        "$image" bash -lc 'ruby -v; ruby -e "p(defined?(RubyVM::YJIT) && RubyVM::YJIT.enabled?)"; gem install mini_sql pg activerecord --no-document >/dev/null; ruby bench_story_compare.rb'
+        "$image" bash -lc 'ruby -v; ruby -e "p(defined?(RubyVM::YJIT) && RubyVM::YJIT.enabled?)"; gem install mini_sql pg activerecord sequel --no-document >/dev/null; ruby bench_story_compare.rb'
     done
   done
 done

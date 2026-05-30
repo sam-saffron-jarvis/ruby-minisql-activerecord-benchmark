@@ -3,13 +3,14 @@ require 'json'
 require 'pg'
 require 'mini_sql'
 require 'active_record'
+require 'sequel'
 require 'logger'
 
 DURATION = Integer(ENV.fetch('BENCH_SECONDS', '60'))
 DB = ENV.fetch('PGDATABASE', 'discourse_sql_ft')
 USER_NAME = ENV.fetch('PGUSER', 'agent')
 DB_HOST = ENV.fetch('PGHOST', nil)
-MODE = ENV.fetch('BENCH_MODE') # mini_sql or active_record
+MODE = ENV.fetch('BENCH_MODE') # mini_sql, active_record, or sequel
 
 SCENARIO = "Discourse-ish browsing session: latest page, topic page, user card, category dashboard, ephemeral autosave write/readback"
 
@@ -33,7 +34,7 @@ def materialize_rows(rows, *fields)
 
   rows.each do |row|
     fields.each do |field|
-      value = row.public_send(field)
+      value = row.is_a?(Hash) ? row[field] : row.public_send(field)
       out << value.to_s
       out << "\t"
     end
@@ -73,6 +74,7 @@ def finish_report(metrics, started, sessions)
     yjit: defined?(RubyVM::YJIT) ? RubyVM::YJIT.enabled? : false,
     mini_sql: Gem.loaded_specs['mini_sql']&.version&.to_s,
     active_record: Gem.loaded_specs['activerecord']&.version&.to_s,
+    sequel: Gem.loaded_specs['sequel']&.version&.to_s,
     pg: Gem.loaded_specs['pg']&.version&.to_s,
     db: DB,
     duration_seconds: elapsed,
@@ -338,6 +340,129 @@ elsif MODE == 'active_record'
     sessions += 1
   end
   finish_report(metrics, started, sessions)
+
+elsif MODE == 'sequel'
+  db_opts = { adapter: 'postgres', database: DB, user: USER_NAME }
+  db_opts[:host] = DB_HOST if DB_HOST
+  db = Sequel.connect(db_opts)
+
+  db.run <<~SQL
+    create temp table if not exists bench_events(
+      id serial primary key,
+      user_id int,
+      topic_id int,
+      payload text,
+      created_at timestamp default now()
+    )
+  SQL
+
+  topic_ids = db.fetch("select id from topics where deleted_at is null and archetype <> 'private_message' order by bumped_at desc limit 250").map { |r| r[:id] }
+  user_ids = db.fetch("select id from users where active = true order by last_seen_at desc nulls last limit 200").map { |r| r[:id] }
+  category_ids = db.fetch("select id from categories order by id").map { |r| r[:id] }
+
+  rng = Random.new(RNG_SEED)
+  200.times do
+    db.fetch("select id, title from topics where id = ?", topic_ids.sample(random: rng)).all
+    db.fetch("select id, username from users where id = ?", user_ids.sample(random: rng)).all
+  end
+
+  metrics = Hash.new { |h, k| h[k] = { calls: 0, seconds: 0.0, rows: 0, bytes: 0 } }
+  started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  deadline = started + DURATION
+  sessions = 0
+
+  while Process.clock_gettime(Process::CLOCK_MONOTONIC) < deadline
+    topic_id = topic_ids.sample(random: rng)
+    user_id = user_ids.sample(random: rng)
+    category_id = category_ids.sample(random: rng)
+
+    measure(metrics, :latest_page) do
+      rows = db.fetch(<<~SQL, category_id, category_id).all
+        select t.id, t.title, t.views, t.posts_count, t.bumped_at,
+               c.name as category_name,
+               u.username as author,
+               lu.username as last_poster_username
+        from topics t
+        join users u on u.id = t.user_id
+        join users lu on lu.id = t.last_post_user_id
+        left join categories c on c.id = t.category_id
+        where t.deleted_at is null
+          and t.visible = true
+          and t.archetype <> 'private_message'
+          and (?::int is null or t.category_id = ?::int)
+        order by t.bumped_at desc
+        limit 30
+      SQL
+      materialize_rows(rows, :id, :title, :views, :posts_count, :bumped_at, :category_name, :author, :last_poster_username)
+    end
+
+    measure(metrics, :topic_header) do
+      rows = db.fetch(<<~SQL, topic_id).all
+        select t.id, t.title, t.views, t.like_count, t.posts_count,
+               c.name as category_name,
+               u.username as author
+        from topics t
+        join users u on u.id = t.user_id
+        left join categories c on c.id = t.category_id
+        where t.id = ?
+      SQL
+      materialize_rows(rows, :id, :title, :views, :like_count, :posts_count, :category_name, :author)
+    end
+
+    measure(metrics, :post_stream) do
+      rows = db.fetch(<<~SQL, topic_id).all
+        select p.id, p.post_number, p.user_id, u.username,
+               p.created_at, p.like_count, p.cooked
+        from posts p
+        join users u on u.id = p.user_id
+        where p.topic_id = ?
+          and p.deleted_at is null
+        order by p.post_number
+        limit 20
+      SQL
+      materialize_rows(rows, :id, :post_number, :user_id, :username, :created_at, :like_count, :cooked)
+    end
+
+    measure(metrics, :user_card) do
+      rows = db.fetch(<<~SQL, user_id).all
+        select u.id, u.username, u.name, u.trust_level,
+               count(p.id) as recent_posts,
+               coalesce(sum(p.like_count), 0) as recent_likes,
+               max(p.created_at) as last_post_at
+        from users u
+        left join posts p on p.user_id = u.id and p.deleted_at is null
+        where u.id = ?
+        group by u.id, u.username, u.name, u.trust_level
+      SQL
+      materialize_rows(rows, :id, :username, :name, :trust_level, :recent_posts, :recent_likes, :last_post_at)
+    end
+
+    measure(metrics, :category_counts) do
+      rows = db.fetch(<<~SQL).all
+        select c.id, c.name, count(t.id) as topic_count, coalesce(sum(t.posts_count), 0) as post_count
+        from categories c
+        left join topics t on t.category_id = c.id and t.deleted_at is null and t.visible = true
+        group by c.id, c.name
+        order by topic_count desc, c.id
+        limit 20
+      SQL
+      materialize_rows(rows, :id, :name, :topic_count, :post_count)
+    end
+
+    measure(metrics, :temp_write_event) do
+      payload = "autosave:#{sessions}"
+      db[:bench_events].insert(user_id: user_id, topic_id: topic_id, payload: payload)
+      [1, payload.bytesize]
+    end
+
+    measure(metrics, :temp_readback) do
+      materialize_scalar(db[:bench_events].where(user_id: user_id).count)
+    end
+
+    sessions += 1
+  end
+
+  finish_report(metrics, started, sessions)
 else
-  raise "unknown BENCH_MODE=#{MODE.inspect}; use mini_sql or active_record"
+  raise "unknown BENCH_MODE=#{MODE.inspect}; use mini_sql, active_record, or sequel"
 end

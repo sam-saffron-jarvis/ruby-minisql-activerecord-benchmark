@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1160" viewBox="0 0 1500 1160">
+<rect width="1500" height="1160" fill="#faf8f4"/>
+<text x="50" y="58" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#252320">Ruby PostgreSQL data access by use case</text>
+<text x="50" y="94" font-family="Inter, Arial, sans-serif" font-size="18" fill="#6c6660">Ruby 4.0.5 + YJIT, static 5k users / 50k topics / ~350k posts fixture. Bars are relative to ActiveRecord = 1.0×. Higher is better.</text>
+<rect x="50" y="118" width="15" height="15" rx="3" fill="#c9a96e"/>
+<text x="74" y="132" font-family="Inter, Arial, sans-serif" font-size="16" fill="#252320">MiniSql</text>
+<rect x="195" y="118" width="15" height="15" rx="3" fill="#6f94aa"/>
+<text x="219" y="132" font-family="Inter, Arial, sans-serif" font-size="16" fill="#252320">Sequel</text>
+<rect x="340" y="118" width="15" height="15" rx="3" fill="#7d7770"/>
+<text x="364" y="132" font-family="Inter, Arial, sans-serif" font-size="16" fill="#252320">ActiveRecord</text>
+<line x1="507.5" y1="166" x2="507.5" y2="1006" stroke="#ded6ca" stroke-width="1"/>
+<text x="507.5" y="152" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#6c6660">1×</text>
+<line x1="765.0" y1="166" x2="765.0" y2="1006" stroke="#ded6ca" stroke-width="1"/>
+<text x="765.0" y="152" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#6c6660">2×</text>
+<line x1="1022.5" y1="166" x2="1022.5" y2="1006" stroke="#ded6ca" stroke-width="1"/>
+<text x="1022.5" y="152" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#6c6660">3×</text>
+<line x1="1280.0" y1="166" x2="1280.0" y2="1006" stroke="#ded6ca" stroke-width="1"/>
+<text x="1280.0" y="152" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#6c6660">4×</text>
+<text x="50" y="229" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">Latest page</text>
+<text x="50" y="254" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 1,823 ops/s</text>
+<rect x="250" y="190" width="456.1" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="207" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="714.1" y="207" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.77×</text>
+<rect x="250" y="222" width="348.9" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="239" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="606.9" y="239" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.36×</text>
+<rect x="250" y="254" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="271" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="271" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="347" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">Topic header</text>
+<text x="50" y="372" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 7,929 ops/s</text>
+<rect x="250" y="308" width="480.0" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="325" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="738.0" y="325" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.86×</text>
+<rect x="250" y="340" width="538.3" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="357" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="796.3" y="357" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">2.09×</text>
+<rect x="250" y="372" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="389" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="389" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="465" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">Post stream</text>
+<text x="50" y="490" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 6,922 ops/s</text>
+<rect x="250" y="426" width="474.5" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="443" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="732.5" y="443" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.84×</text>
+<rect x="250" y="458" width="329.3" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="475" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="587.3" y="475" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.28×</text>
+<rect x="250" y="490" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="507" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="507" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="583" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">User card</text>
+<text x="50" y="608" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 7,266 ops/s</text>
+<rect x="250" y="544" width="433.1" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="561" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="691.1" y="561" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.68×</text>
+<rect x="250" y="576" width="424.2" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="593" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="682.2" y="593" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.65×</text>
+<rect x="250" y="608" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="625" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="625" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="701" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">Category aggregate</text>
+<text x="50" y="726" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 168 ops/s</text>
+<rect x="250" y="662" width="269.2" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="679" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="527.2" y="679" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.05×</text>
+<rect x="250" y="694" width="267.8" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="711" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="525.8" y="711" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.04×</text>
+<rect x="250" y="726" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="743" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="743" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="819" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">Temp write</text>
+<text x="50" y="844" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 17,829 ops/s</text>
+<rect x="250" y="780" width="894.9" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="797" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="1152.9" y="797" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">3.48×</text>
+<rect x="250" y="812" width="707.2" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="829" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="965.2" y="829" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">2.75×</text>
+<rect x="250" y="844" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="861" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="861" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="937" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#252320">Temp readback</text>
+<text x="50" y="962" font-family="Inter, Arial, sans-serif" font-size="13" fill="#6c6660">AR 28,549 ops/s</text>
+<rect x="250" y="898" width="482.3" height="24" rx="5" fill="#c9a96e"/>
+<text x="238" y="915" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">MiniSql</text>
+<text x="740.3" y="915" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.87×</text>
+<rect x="250" y="930" width="323.7" height="24" rx="5" fill="#6f94aa"/>
+<text x="238" y="947" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">Sequel</text>
+<text x="581.7" y="947" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.26×</text>
+<rect x="250" y="962" width="257.5" height="24" rx="5" fill="#7d7770"/>
+<text x="238" y="979" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="14" fill="#252320">ActiveRecord</text>
+<text x="515.5" y="979" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#252320">1.00×</text>
+<text x="50" y="1105" font-family="Inter, Arial, sans-serif" font-size="15" fill="#6c6660">The reporting aggregate is deliberately separated: it is mostly PostgreSQL scan/aggregate time, so Ruby layer differences mostly vanish.</text>
+</svg>

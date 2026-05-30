@@ -6,7 +6,7 @@ Article: https://wasnotwas.com/writing/minisql-activerecord-and-ruby-4-a-small-b
 
 ## What it measures
 
-This is **not** a full Rails request benchmark. It compares the query/data-access layer for a forum-style workload:
+This is **not** a full Rails request benchmark. It compares Ruby data-access layers for several forum-style PostgreSQL use cases:
 
 1. Latest topic list
 2. Topic header
@@ -16,7 +16,7 @@ This is **not** a full Rails request benchmark. It compares the query/data-acces
 6. Temporary autosave/event write
 7. Temporary readback count
 
-Every query result is iterated and converted into tab-separated text. The benchmark records row counts and rendered byte counts so it measures data access plus lightweight serialization, not just `.length` on an already-materialized array.
+Each use case is timed independently. Every query result is iterated and converted into tab-separated text. The benchmark records row counts and rendered byte counts so it measures data access plus lightweight serialization, not just `.length` on an already-materialized array.
 
 The matrix supports:
 
@@ -32,69 +32,63 @@ The benchmark runners follow this lifecycle by default:
 
 1. create a fresh benchmark database
 2. populate it once with deterministic synthetic data and indexes
-3. run the full Ruby × YJIT × library matrix against that same database
+3. run the Ruby × YJIT × library × use-case matrix against that same database
 4. drop/remove the database when finished
 
 This avoids comparing runs that accidentally used different fixtures.
 
 Use `KEEP_DB=1` if you want to inspect the generated database after the run. Use `USE_EXISTING_DB=1` only when you deliberately want to benchmark a pre-existing database.
 
-## Local one-command run
+## Local case benchmark
 
-This creates a temporary local PostgreSQL database, populates it, runs the full matrix, then drops it:
+This creates a temporary local PostgreSQL database, populates it, runs each use case independently, then drops the DB:
 
 ```bash
 mise install ruby@3.4.6 ruby@4.0.5
-BENCH_SECONDS=60 ./run-local.sh | tee local-bench-output.txt
+BENCH_SECONDS=10 BENCH_WARMUP_SECONDS=2 ./run-local-cases.sh
 ```
+
+Results are written to `case-results.jsonl` by default. Use `RESULTS_JSONL=...` to choose another path.
 
 Tune fixture size:
 
 ```bash
 USERS=10000 CATEGORIES=48 TOPICS=100000 AVG_POSTS=8 \
-  BENCH_SECONDS=60 ./run-local.sh
+  BENCH_SECONDS=10 BENCH_WARMUP_SECONDS=2 ./run-local-cases.sh
 ```
 
 Keep the generated DB:
 
 ```bash
-KEEP_DB=1 PGDATABASE=minisql_ar_bench BENCH_SECONDS=60 ./run-local.sh
+KEEP_DB=1 PGDATABASE=minisql_ar_bench BENCH_SECONDS=10 ./run-local-cases.sh
 ```
 
 Use an existing DB intentionally:
 
 ```bash
-USE_EXISTING_DB=1 PGDATABASE=my_existing_bench_db BENCH_SECONDS=60 ./run-local.sh
+USE_EXISTING_DB=1 PGDATABASE=my_existing_bench_db BENCH_SECONDS=10 ./run-local-cases.sh
 ```
 
-## Docker one-command run
+## Legacy blended session benchmark
 
-This creates a `postgres:16` container, populates it once, runs the full Docker Ruby matrix against that container, then removes the container and network:
+The old blended-session benchmark is still present:
+
+```bash
+BENCH_SECONDS=60 ./run-local.sh
+```
+
+That score is no longer the preferred headline metric. The category dashboard aggregate dominates the blended session, which hides the differences in row materialization and smaller hot-path reads. Use the case benchmark above for the article-style results.
+
+## Docker run
+
+Docker support remains available for reproducibility checks:
 
 ```bash
 USERS=5000 CATEGORIES=32 TOPICS=50000 AVG_POSTS=6 \
-  BENCH_SECONDS=60 ./run-docker.sh | tee docker-bench-output.txt
-```
-
-Keep the generated Postgres container:
-
-```bash
-KEEP_DB=1 BENCH_SECONDS=60 ./run-docker.sh
-```
-
-Use an existing Docker/Postgres database intentionally:
-
-```bash
-USE_EXISTING_DB=1 PGDATABASE=ruby_data_bench PGUSER=agent PGHOST=bench-pg \
   BENCH_SECONDS=60 ./run-docker.sh
 ```
 
-Cleanup if kept:
-
-```bash
-docker rm -f bench-pg
-docker network rm bench-net
-```
+The Docker runner currently uses the legacy blended benchmark. Treat constrained-host Docker results as directional unless you adapt it to the per-case runner.
 
 ## Manual database setup
 
@@ -105,7 +99,7 @@ Default dataset:
 - 5,000 users
 - 32 categories
 - 50,000 topics
-- roughly 300,000 posts (`AVG_POSTS=6`)
+- roughly 350,000 posts with `AVG_POSTS=6`
 - indexes for the benchmark queries
 
 Manual use:
@@ -126,7 +120,7 @@ PGDATABASE=minisql_ar_bench PGUSER=$USER ruby setup-db.rb
 | topic header | `topics_pkey`, then primary-key joins |
 | post stream | `index_posts_on_topic_id_post_number` for `(topic_id, post_number)` |
 | user card | `users_pkey` plus `index_posts_on_user_id_created_at` |
-| temp readback | `index_bench_events_on_user_id` once the write table has real cardinality |
+| temp readback | `index_bench_events_on_user_id` / temp-table user index once the write table has real cardinality |
 
 Representative `EXPLAIN (ANALYZE, BUFFERS)` checks on the default fixture confirmed those plans. The one deliberate exception is `category_counts`: it aggregates topic counts across all categories, so PostgreSQL sensibly scans the visible/non-deleted topic slice and hashes/group-aggregates it. That is intended to represent a dashboard/reporting aggregate, not an accidental missing index.
 
@@ -138,28 +132,32 @@ Representative `EXPLAIN (ANALYZE, BUFFERS)` checks on the default fixture confir
 - YJIT-capable Ruby builds for `--yjit` runs
 - Gems: `mini_sql`, `pg`, `activerecord`, `sequel`
 
-The published runs used:
+The published case run used:
 
 - `mini_sql 1.6.0`
 - `activerecord 8.1.3`
 - `sequel 5.104.0`
 - `pg 1.6.3`
-- 60 seconds per Ruby/layer/YJIT combination
+- 10 second measurement + 2 second warm-up per Ruby/layer/YJIT/use-case combination
 
 ## Results
 
-Published results are in:
+Published case results are in:
+
+- `case-results.csv`
+- `case-results.json`
+
+![Benchmark chart](case-chart.svg)
+
+Legacy blended-session results are still in:
 
 - `results.csv`
 - `results.json`
-
-![Benchmark chart](chart.svg)
-
-The checked-in chart/results reflect the complete MiniSql vs Sequel vs ActiveRecord matrix for Ruby 3.4.6 and Ruby 4.0.5, with YJIT off and on.
+- `chart.svg`
 
 ## Caveats
 
 - Not a full Rails request benchmark.
-- The Docker run in the article was on a 1GB wasnotwas.com droplet; absolute throughput is not comparable to a proper benchmark host.
-- The dataset is synthetic. Use your production-like data before drawing production conclusions.
+- The dataset is synthetic. Use production-like data before drawing production conclusions.
 - ActiveRecord buys model semantics. MiniSql and Sequel are more direct when the query is the point.
+- The reporting aggregate is intentionally separated from the read/materialization hot paths because it is mostly PostgreSQL scan/aggregate work.

@@ -116,6 +116,20 @@ mise x ruby@3.4.6 -- gem install pg --no-document
 PGDATABASE=minisql_ar_bench PGUSER=$USER ruby setup-db.rb
 ```
 
+## Index coverage
+
+`setup-db.rb` creates the indexes used by the point-lookups and ordered hot-path queries:
+
+| Workload step | Index/plan shape |
+|---|---|
+| latest page | `index_topics_on_category_public` for `(category_id, bumped_at desc)`, then primary-key lookups for joined users/categories |
+| topic header | `topics_pkey`, then primary-key joins |
+| post stream | `index_posts_on_topic_id_post_number` for `(topic_id, post_number)` |
+| user card | `users_pkey` plus `index_posts_on_user_id_created_at` |
+| temp readback | `index_bench_events_on_user_id` once the write table has real cardinality |
+
+Representative `EXPLAIN (ANALYZE, BUFFERS)` checks on the default fixture confirmed those plans. The one deliberate exception is `category_counts`: it aggregates topic counts across all categories, so PostgreSQL sensibly scans the visible/non-deleted topic slice and hashes/group-aggregates it. That is intended to represent a dashboard/reporting aggregate, not an accidental missing index.
+
 ## Requirements
 
 - PostgreSQL client tools for local runs (`createdb`, `dropdb`)
@@ -124,14 +138,13 @@ PGDATABASE=minisql_ar_bench PGUSER=$USER ruby setup-db.rb
 - YJIT-capable Ruby builds for `--yjit` runs
 - Gems: `mini_sql`, `pg`, `activerecord`, `sequel`
 
-The published pre-Sequel runs used:
+The published runs used:
 
 - `mini_sql 1.6.0`
 - `activerecord 8.1.3`
+- `sequel 5.104.0`
 - `pg 1.6.3`
 - 60 seconds per Ruby/layer/YJIT combination
-
-Sequel support is present in the benchmark source; rerun the matrix after setup to generate results for your machine.
 
 ## Results
 
@@ -142,7 +155,7 @@ Published results are in:
 
 ![Benchmark chart](chart.svg)
 
-The checked-in chart/results currently reflect the MiniSql vs ActiveRecord matrix. Sequel has been added to the benchmark code and should be regenerated for a complete three-way comparison on your target machine.
+The checked-in chart/results reflect the complete MiniSql vs Sequel vs ActiveRecord matrix for Ruby 3.4.6 and Ruby 4.0.5, with YJIT off and on.
 
 ## Caveats
 
